@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo find . -type f, -tyoe d '*.empty' | cut -d ' ' -f '9' '\n' | sort
+sudo find . -size 0 | ls -laR | cut -d ' ' -f '9' '\n'
