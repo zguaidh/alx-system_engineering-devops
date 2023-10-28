@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# loops from 1 to 10 & displays bad luck forp iteration
+displays good luck for the 8th loop iteration
+displays Best School for the other iterations
