@@ -1,3 +1,3 @@
 #!/usr/bin/env ruby
 #regular expression must match a 10 digit phone number
-puts ARGV[0].scan(/^\d\d\d\d\d\d\d\d\d\d/).join
+puts ARGV[0].scan(/^\d\d\d\d\d\d\d\d\d\d$/).join
