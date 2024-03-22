@@ -1,3 +1,4 @@
+# creating  afile in /temp
 file { '/tmp/school':
   ensure  => 'present',
   path    => ' /tmp/school',
