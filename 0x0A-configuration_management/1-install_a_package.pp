@@ -1,7 +1,14 @@
 # Installing flask from pip3
-$package = 'flask'
+package {'python3':
+  ensure => 'installed',
+}
 
-package { $package:
+package {'werkzeug':
+  ensure   => '2.1.1',
+  provider => 'pip'
+}
+
+package { 'flask':
   ensure   => '2.1.0',
-  provider => 'pip3'
+  provider => 'pip'
 }
