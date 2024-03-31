@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-# debug a page
-
-echo "ServerName localhost" >> /etc/apache2.conf
+# start apache2 inside docker /debug a page
 service apache2 start
