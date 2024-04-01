@@ -28,7 +28,7 @@ server {
 }
 EOF
 
-echo "Ceci n'est pas une page" > "$error_page"
+echo "Ceci n'est pas une page" | tee "$error_page" > /dev/null
 
-echo 'Hello, World!' > "$index_file"
+echo 'Hello, World!' | tee "$index_file" > /dev/null
 service nginx restart
