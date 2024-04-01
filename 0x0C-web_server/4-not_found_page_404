@@ -7,10 +7,11 @@ apt -y install nginx
 
 mkdir -p /var/www/html/
 
-file=/var/www/html/index.html
-file_re=/etc/nginx/sites-available/default
+index_file="/var/www/html/index.html"
+nginx_file="/etc/nginx/sites-available/default"
 
-echo 'server {
+cat <<EOF > "$nginx_config"
+server {
     listen 80;
     server_name _;
 
@@ -23,9 +24,10 @@ echo 'server {
 	index index.html;
 	error_page 404 /error.html;
     }
-}' | tee $file_re
+}
+EOF
 
-echo "Ceci n'est pas une page" | tee /var/www/html/error.html > /dev/null
+echo "Ceci n'est pas une page" > /var/www/html/error.html
 
-bash -c "echo 'Hello, World!' > $file"
+echo 'Hello, World!' > "$file"
 service nginx restart
