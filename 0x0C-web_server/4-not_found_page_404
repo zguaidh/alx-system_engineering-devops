@@ -8,7 +8,7 @@ apt -y install nginx
 mkdir -p /var/www/html/
 
 index_file="/var/www/html/index.html"
-nginx_file="/etc/nginx/sites-available/default"
+nginx_config="/etc/nginx/sites-available/default"
 error_page="/var/www/html/error.html"
 
 cat <<EOF > "$nginx_config"
