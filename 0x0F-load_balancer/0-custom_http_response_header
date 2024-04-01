@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#  configure web-02 to be identical to web-01
+
+apt-get update
+apt-get install -y nginx
+
+mkdir -p /var/www/html
+touch /var/www/html/index.html
+echo "Hello World!" > /var/www/html/index.html
+printf '%s\n' "server {
+	listen 80;
+	listen [::]:80;
+	root /var/www/html;
+	index index.html index.htm;
+	add_header X-Served-By $hostname;
+	location /redirect_me {
+		return 301 https://intranet.alxswe.com/;
+	}
+}" > /etc/nginx/sites-available/default
+
+service nginx restart
