@@ -36,7 +36,7 @@ defaults
 frontend http-in
     mode http
     bind *:80
-    bind *:443 ssl crt /etc/letsencrypt/live/www.habibaz.tech/habibaz.tech.pem
+    bind *:443 ssl crt /etc/letsencrypt/live/www.habibaz.tech/fullchain.pem
     default_backend servers
 
 backend servers
