@@ -1,23 +1,35 @@
 #!/usr/bin/env bash
 #  script to instal and configure HAProxy on lb-01 
+# configure HAproxy on my lb-01 server.
 sudo apt-get -y update
 sudo apt-get -y install haproxy
 
+# create a backup copy of the original haproxy file
+sudo mv /etc/haproxy/haproxy.cfg{,.original}
+sudo touch /etc/haproxy/haproxy.cfg
 
-s_config=\
+# edit config file
+server_config=\
 "
-frontend  besthor_frontend
+frontend  http-in
+        timeout client 30000
         bind *:80
         mode http
-        default_backend besthor_backend
-backend besthor_backend
+        default_backend servers
+backend servers
+        timeout connect 3000
+        timeout server 30000
         balance roundrobin
-        server 176572-web-01 54.165.168.252:80 check
-        server 176572-web-02 34.237.91.136:80 check
+        server 455665-web-01 35.174.200.136:80 check
+        server 455665-web-02 54.82.220.51:80 check
 "
-echo "$s_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
+# enable haproxy to be started by init script
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
+# Testing the HAproxy configuration file
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
 
-sudo haproxy -cf /etc/haproxy/haproxy.cfg
+# Restart the Nginx service
+sudo service haproxy restart
