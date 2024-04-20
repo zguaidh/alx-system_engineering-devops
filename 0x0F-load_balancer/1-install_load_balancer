@@ -5,8 +5,7 @@ sudo apt-get -y update
 sudo apt-get -y install haproxy
 
 # create a backup copy of the original haproxy file
-sudo mv /etc/haproxy/haproxy.cfg{,.original}
-sudo touch /etc/haproxy/haproxy.cfg
+sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.original
 
 # edit config file
 server_config=\
