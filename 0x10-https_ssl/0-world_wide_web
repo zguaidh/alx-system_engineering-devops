@@ -2,21 +2,21 @@
 #  display information for the specified subdomain or
 #+ the information for the subdomains www, lb-01, web-01 and web-02 - of the specified domain
 output=$(dig "$1" | grep -A1 'ANSWER SECTION:')
-echo "$output"
-record_type=$((awk 'NR==2 {print $4}') <<< "$output")
-destination=$((awk 'NR==2 {print $5}') <<< "$output")
-echo "$record_type"
-echo "$destination"
+record_type=$(awk 'NR==2 {print $4}' <<< "$output")
+destination=$(awk 'NR==2 {print $5}' <<< "$output")
+
 function print_sub()
 {
-	awk -v sub_name="$2" '{ printf("The subdomain %s is a %s record and points to %s\n", sub_name, $record_type, $destination) }' "$1"
+	awk -v sub_name="$1" -v record_type="$2" -v destination="$3" 'BEGIN { printf("The subdomain %s is a %s record and points to %s\n", sub_name, record_type, destination) }'
 }
 
+subdomain=$2
 
-if [ -z "$2" ]
+if [ "$#" -eq 1 ]
 then
-	echo "the four subs"
+	for sub in www lb-01 web-01 web-02; do
+		print_sub "$sub" "$record_type" "$destination"
+	done
 else
-	print_sub "$2"
+	print_sub "$subdomain" "$record_type" "$destination"
 fi
-
