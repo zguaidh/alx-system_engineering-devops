@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#  display information for the specified subdomain or
+#+ the information for the subdomains www, lb-01, web-01 and web-02 - of the specified domain
+output=$(dig "$1" | grep -A1 'ANSWER SECTION:')
+echo "$output"
+record_type=$((awk 'NR==2 {print $4}') <<< "$output")
+destination=$((awk 'NR==2 {print $5}') <<< "$output")
+echo "$record_type"
+echo "$destination"
+function print_sub()
+{
+	awk -v sub_name="$2" '{ printf("The subdomain %s is a %s record and points to %s\n", sub_name, $record_type, $destination) }' "$1"
+}
+
+
+if [ -z "$2" ]
+then
+	echo "the four subs"
+else
+	print_sub "$2"
+fi
+
