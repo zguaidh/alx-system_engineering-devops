@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Bash script that uses ssh to connect to server lb1
+ssh ubuntu@100.25.198.210 -i ~/.ssh/id_rsa
+
