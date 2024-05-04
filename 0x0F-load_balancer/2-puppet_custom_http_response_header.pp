@@ -22,7 +22,7 @@ file { '/var/www/html/index.html':
 
 # Redirect_me
 exec { 'redirect_me':
-  command => 'sed -i \'^}$/i \ \n\tlocation \/redirect_me {return 301 https:\/\/intranet.alxswe.com/;}\' /etc/nginx/sites-available/default',
+  command => 'sed -i \'^}$/i \ \n\tlocation \/redirect_me {return 301 https:\/\/intranet.alxswe.com;}\' /etc/nginx/sites-available/default',
   provider  => 'shell',
 }
 
