@@ -1,31 +1,19 @@
 #!/usr/bin/env bash
-# configure web-02 to be identical to web-01 -  custom HTTP header must be X-Served-By
+# Configure Nginx so that its HTTP response contains a custom header
 
 sudo apt-get -y update
-sudo apt -y upgrade
-sudo apt -y install nginx
+sudo apt-get install -y nginx
 
-file=/var/www/html/index.html
-file_re=/etc/nginx/sites-available/default
-error_page=/var/www/html/error.html
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
-echo 'server {
-	listen 80;
-	server_name _;
-	add_header X-Served-By $hostname;
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/intranet.alxswe.com permanent;"
+sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-available/default
 
-	location /redirect_me {
-		return 301 https://intranet.alxswe.com/;
-    	}
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
 
-    	location / {
-		root /var/www/html;
-		index index.html;
-		error_page 404 /error.html;
-    	}
-}' | sudo tee $file_re
+sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-available/default
 
-echo "Ceci n'est pas une page" | sudo tee $error_page
+sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
 
-sudo bash -c "echo 'Hello, World!' > $file"
 sudo service nginx restart
