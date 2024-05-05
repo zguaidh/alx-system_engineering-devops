@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 #  display information for the specified subdomain or
 #+ the information for the subdomains www, lb-01, web-01 and web-02 - of the specified domain
-output=$(dig "$1" | grep -A1 'ANSWER SECTION:')
+if [ "$#" -eq 1 ]
+then
+	output=$(dig "$1" | grep -A1 'ANSWER SECTION:')
+else
+	output=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:')
+fi
+
 record_type=$(awk 'NR==2 {print $4}' <<< "$output")
 destination=$(awk 'NR==2 {print $5}' <<< "$output")
 
@@ -15,7 +21,9 @@ subdomain=$2
 if [ "$#" -eq 1 ]
 then
 	for sub in www lb-01 web-01 web-02; do
-		print_sub "$sub" "$record_type" "$destination"
+		new_output=$(dig "$sub"."$1" | grep -A1 'ANSWER SECTION:')
+		dest=$(awk 'NR==2 {print $5}' <<< "$new_output")
+		print_sub "$sub" "$record_type" "$dest"
 	done
 else
 	print_sub "$subdomain" "$record_type" "$destination"
