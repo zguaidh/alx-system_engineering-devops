@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# start apache2 inside docker /debug a page
+sudo service apache2 status
+sudo service apache2 start

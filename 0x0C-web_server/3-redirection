@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Configure Nginx server so that /redirect_me is redirecting to another page
+# to use sed:
+# new_string="line number 1\nline number 2\nline number 3"
+# sed -i "s/string_to_replace/$new_string/" file
+
+sudo apt-get update
+sudo apt-get install -y nginx
+sudo ufw allow 'Nginx HTTP'
+
+sudo mkdir -p /var/www/html
+sudo touch /var/www/html/index.html
+sudo echo "Hello World!" > /var/www/html/index.html
+
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/intranet.alxswe.com permanent;"
+sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-available/default
+
+sudo service nginx restart
