@@ -22,7 +22,7 @@ if __name__ == "__main__":
         user_tasks = [{'username': username,
                        'task': todo.get('title'),
                        'completed': todo.get('completed')
-                      } for todo in todos]
+                       } for todo in todos]
 
         data.update({user_id: user_tasks})
 
