@@ -8,7 +8,7 @@ from sys import argv
 
 if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/"
-    emp_id = argv[1]
+    emp_id = int(argv[1])
     users_url = f'{url}/users/{emp_id}'
     todos_url = f'{url}/todos?userId={emp_id}'
 
